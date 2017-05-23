@@ -7,6 +7,7 @@
   <sounds name="sound"/>
   <sprites name="sprites">
     <sprites name="00. Platform">
+      <sprite>sprites\spr_playermask</sprite>
       <sprite>sprites\spr_player</sprite>
       <sprites name="Collision">
         <sprite>sprites\spr_square</sprite>
@@ -40,6 +41,17 @@
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
+  <scripts name="scripts">
+    <scripts name="00. Platform">
+      <scripts name="Player">
+        <scripts name="Behaviour">
+          <script>scripts\scr_00_pb_main.gml</script>
+          <script>scripts\scr_00_pb_climb.gml</script>
+          <script>scripts\scr_00_pb_swim.gml</script>
+        </scripts>
+      </scripts>
+    </scripts>
+  </scripts>
   <objects name="objects">
     <object>objects\obj_persistent</object>
     <objects name="Main">
