@@ -40,32 +40,43 @@ if (vspeed > 3.5)
 //Set up the player's maximum horizontal speed.
 //Collision with 45ª slopes
 if ((collision_rectangle(bbox_left,bbox_bottom,bbox_right,bbox_bottom+4,obj_slope_sr,1,0)) && (hspeed > 0))
-|| ((collision_rectangle(bbox_left,bbox_bottom,bbox_right,bbox_bottom+4,obj_slope_sl,1,0)) && (hspeed < 0))
-    hspeedmax = 0.675;
+|| ((collision_rectangle(bbox_left,bbox_bottom,bbox_right,bbox_bottom+4,obj_slope_sl,1,0)) && (hspeed < 0)) { 
+
+    //Perform only if walking
+    if (state == 1) {
+    
+        hspeedmax = 0.675;
+        if (hspeed < -0.675)
+            hspeed += acc;
+        else if (hspeed > 0.675)
+            hspeed -= acc;
+    }
+}
     
 //Collision with 22.5ª slopes.
 else if ((collision_rectangle(bbox_left,bbox_bottom,bbox_right,bbox_bottom+4,obj_slope_r,1,0)) && (hspeed > 0))
-|| ((collision_rectangle(bbox_left,bbox_bottom,bbox_right,bbox_bottom+4,obj_slope_l,1,0)) && (hspeed < 0))
-    hspeedmax = 1.35;
+|| ((collision_rectangle(bbox_left,bbox_bottom,bbox_right,bbox_bottom+4,obj_slope_l,1,0)) && (hspeed < 0)) {
+
+    //Perform only if walking
+    if (state == 1) {
+
+        hspeedmax = 1.35;
+        if (hspeed < -1.35)
+            hspeed += acc;
+        else if (hspeed > 1.35)
+            hspeed -= acc;
+    }
+}
 
 //Otherwise, set default limits.
 else {
     
     if (keyboard_check(vk_control)) //If the control key is being held.
-        hspeedmax = 2.7;          
+        hspeedmax = 2.7;
     
     //Otherwise, do not reduce speed until the player makes contact with the ground.  
-    else  
+    else
         hspeedmax = 1.35;
-}
-    
-//Cap the player's horizontal speed when on ground.
-if (state < 2) {
-
-    if (hspeed > hspeedmax)
-        hspeed -= acc;
-    else if (hspeed < -hspeedmax)
-        hspeed += acc;
 }
 
 //Handle basic movements
