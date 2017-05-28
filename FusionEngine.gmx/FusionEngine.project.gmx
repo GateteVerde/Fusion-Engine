@@ -30,7 +30,14 @@
           <sprite>sprites\spr_square_lconv</sprite>
           <sprite>sprites\spr_square_rconv</sprite>
         </sprites>
-        <sprite>sprites\spr_slippery</sprite>
+        <sprites name="Hazards">
+          <sprites name="Hurt">
+            <sprite>sprites\spr_hurtmask</sprite>
+          </sprites>
+          <sprite>sprites\spr_slippery</sprite>
+        </sprites>
+        <sprite>sprites\spr_rectangle_a</sprite>
+        <sprite>sprites\spr_rectangle_b</sprite>
       </sprites>
     </sprites>
     <sprite>sprites\spr_up</sprite>
@@ -80,7 +87,11 @@
               <object>objects\obj_conveyor_l</object>
               <object>objects\obj_conveyor_r</object>
             </objects>
-            <object>objects\obj_slippery</object>
+            <objects name="Hazards">
+              <object>objects\obj_slippery</object>
+            </objects>
+            <object>objects\obj_movingplatform</object>
+            <object>objects\obj_movingplatform_semisolid</object>
           </objects>
         </objects>
         <objects name="Parents">
