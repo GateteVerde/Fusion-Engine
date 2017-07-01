@@ -83,9 +83,21 @@ else if (collision_rectangle(bbox_left,y,bbox_right,y+sprite_height,obj_right,0,
             <kind>1</kind>
             <string>///Push the player
 
-if ((hspeed &lt; 0) &amp;&amp; (collision_rectangle(bbox_left-2-hspeed,bbox_top+1,bbox_left-2,bbox_bottom,obj_player,0,0)))
-|| ((hspeed &gt; 0) &amp;&amp; (collision_rectangle(bbox_right+2,bbox_top+1,bbox_right+2+hspeed,bbox_bottom,obj_player,0,0)))
-    obj_player.x += hspeed
+//If the object is moving to the left
+if (hspeed &lt; 0) {
+
+    player = collision_rectangle(bbox_left-1-hspeed,bbox_top+1,bbox_left-1,bbox_bottom,obj_player,0,0);
+    if (player)
+        player.x--;
+}
+
+//Otherwise, if the object is moving to the right.
+else if (hspeed &gt; 0) {
+
+    player = collision_rectangle(bbox_right+1,bbox_top+1,bbox_right+1+hspeed,bbox_bottom,obj_player,0,0);
+    if (player)
+        player.x++;
+}
 </string>
           </argument>
         </arguments>

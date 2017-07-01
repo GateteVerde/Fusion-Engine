@@ -43,14 +43,8 @@ if ((collision_rectangle(bbox_left,bbox_bottom,bbox_right,bbox_bottom+4,obj_slop
 || ((collision_rectangle(bbox_left,bbox_bottom,bbox_right,bbox_bottom+4,obj_slope_sl,1,0)) && (hspeed < 0)) { 
 
     //Perform only if walking
-    if (state == 1) {
-    
+    if (state == 1)
         hspeedmax = 0.675;
-        if (hspeed < -0.675)
-            hspeed += acc;
-        else if (hspeed > 0.675)
-            hspeed -= acc;
-    }
 }
     
 //Collision with 22.5ª slopes.
@@ -58,14 +52,8 @@ else if ((collision_rectangle(bbox_left,bbox_bottom,bbox_right,bbox_bottom+4,obj
 || ((collision_rectangle(bbox_left,bbox_bottom,bbox_right,bbox_bottom+4,obj_slope_l,1,0)) && (hspeed < 0)) {
 
     //Perform only if walking
-    if (state == 1) {
-
+    if (state == 1)
         hspeedmax = 1.35;
-        if (hspeed < -1.35)
-            hspeed += acc;
-        else if (hspeed > 1.35)
-            hspeed -= acc;
-    }
 }
 
 //Otherwise, set default limits.
@@ -216,7 +204,7 @@ if ((!disablecontrol) && (!inwall)) { //If the player's controls are not disable
         }
     }
     
-    //Otherwise, if the player is on contact with the ground.
+    //Otherwise if the player is on contact with the ground, slowdown him until he stops.
     else if (vspeed == 0) { 
     
         //If the player is not overlapping a slippery surface.
@@ -251,6 +239,17 @@ if ((!disablecontrol) && (!inwall)) { //If the player's controls are not disable
             if ((hspeed < dec/8) && (hspeed > -dec/8))          
                 hspeed = 0;
         }
+    }
+    
+    //Slowdown the player is he is faster than his maximum speed.
+    if ((state != 2) && (abs(hspeed) > hspeedmax)) {
+
+        //Slow down Mario's horizontal speed
+        hspeed = max(0,abs(hspeed)-0.025)*sign(hspeed);
+
+        //If Mario is slow enough, stop his horizontal speed entirely
+        if abs(hspeed) < 0.025
+            hspeed = 0
     }
 }
 
@@ -295,11 +294,8 @@ else if (vspeed == 0) {
 if ((state == 2) || (delay > 0)) {
     
     //Variable jumping
-    if (vspeed < -2) && (jumping == 1) {
-    
-        //Use alternate gravity
+    if (vspeed < -2) && (jumping == 1)
         gravity = grav_alt;
-    }   
     
     //Otherwise, use alternate gravity.     
     else {
