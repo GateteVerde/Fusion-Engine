@@ -6,8 +6,14 @@
   <NewExtensions/>
   <sounds name="sound"/>
   <sprites name="sprites">
+    <sprite>sprites\spr_up</sprite>
+    <sprite>sprites\spr_down</sprite>
+    <sprite>sprites\spr_left</sprite>
+    <sprite>sprites\spr_right</sprite>
+    <sprite>sprites\spr_eventmarker</sprite>
     <sprites name="00. Platform">
       <sprite>sprites\spr_playermask</sprite>
+      <sprite>sprites\spr_playermask_crouch</sprite>
       <sprite>sprites\spr_player</sprite>
       <sprites name="Collision">
         <sprite>sprites\spr_square</sprite>
@@ -40,11 +46,6 @@
         <sprite>sprites\spr_rectangle_b</sprite>
       </sprites>
     </sprites>
-    <sprite>sprites\spr_up</sprite>
-    <sprite>sprites\spr_down</sprite>
-    <sprite>sprites\spr_left</sprite>
-    <sprite>sprites\spr_right</sprite>
-    <sprite>sprites\spr_eventmarker</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
@@ -61,50 +62,48 @@
   </scripts>
   <objects name="objects">
     <object>objects\obj_persistent</object>
-    <objects name="Main">
-      <objects name="00. Platform">
-        <object>objects\obj_camera</object>
-        <objects name="Main">
-          <object>objects\obj_player</object>
-          <objects name="Collision">
-            <object>objects\obj_solid</object>
-            <object>objects\obj_semisolid</object>
-            <object>objects\obj_swim</object>
-            <object>objects\obj_climb</object>
-            <objects name="Slopes">
-              <objects name="Inverted Slopes">
-                <object>objects\obj_ceilslope_r</object>
-                <object>objects\obj_ceilslope_l</object>
-                <object>objects\obj_ceilslope_sr</object>
-                <object>objects\obj_ceilslope_sl</object>
-              </objects>
-              <object>objects\obj_slope_r</object>
-              <object>objects\obj_slope_l</object>
-              <object>objects\obj_slope_sr</object>
-              <object>objects\obj_slope_sl</object>
-            </objects>
-            <objects name="Conveyors">
-              <object>objects\obj_conveyor_l</object>
-              <object>objects\obj_conveyor_r</object>
-            </objects>
-            <objects name="Hazards">
-              <object>objects\obj_slippery</object>
-            </objects>
-            <object>objects\obj_movingplatform</object>
-            <object>objects\obj_movingplatform_semisolid</object>
-          </objects>
-        </objects>
-        <objects name="Parents">
-          <objects name="Collision Parents">
-            <object>objects\obj_slopeparent</object>
-          </objects>
-        </objects>
-      </objects>
-    </objects>
     <object>objects\obj_up</object>
     <object>objects\obj_down</object>
     <object>objects\obj_left</object>
     <object>objects\obj_right</object>
+    <objects name="00. Platform">
+      <object>objects\obj_camera</object>
+      <objects name="Main">
+        <object>objects\obj_player</object>
+        <objects name="Collision">
+          <object>objects\obj_solid</object>
+          <object>objects\obj_semisolid</object>
+          <object>objects\obj_swim</object>
+          <object>objects\obj_climb</object>
+          <objects name="Slopes">
+            <objects name="Inverted Slopes">
+              <object>objects\obj_ceilslope_r</object>
+              <object>objects\obj_ceilslope_l</object>
+              <object>objects\obj_ceilslope_sr</object>
+              <object>objects\obj_ceilslope_sl</object>
+            </objects>
+            <object>objects\obj_slope_r</object>
+            <object>objects\obj_slope_l</object>
+            <object>objects\obj_slope_sr</object>
+            <object>objects\obj_slope_sl</object>
+          </objects>
+          <objects name="Conveyors">
+            <object>objects\obj_conveyor_l</object>
+            <object>objects\obj_conveyor_r</object>
+          </objects>
+          <objects name="Hazards">
+            <object>objects\obj_slippery</object>
+          </objects>
+          <object>objects\obj_movingplatform</object>
+          <object>objects\obj_movingplatform_semisolid</object>
+        </objects>
+      </objects>
+      <objects name="Parents">
+        <objects name="Collision Parents">
+          <object>objects\obj_slopeparent</object>
+        </objects>
+      </objects>
+    </objects>
   </objects>
   <rooms name="rooms">
     <room>rooms\rm_setup</room>
