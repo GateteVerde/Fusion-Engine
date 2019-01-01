@@ -28,13 +28,7 @@
             <string>///Camera, use this to follow the player
 
 //Target object
-if (instance_exists(obj_player)) {
-
-    x = obj_player.x;
-    y = obj_player.y;
-    target_x = obj_player.x;
-    target_y = obj_player.y;
-}
+target_y = 0;
 
 //Barrier
 barrier = 1;
@@ -42,6 +36,13 @@ alarm[0] = 3;
 
 //Set the object to follow.
 view_object[0] = obj_camera;
+
+//What player object is present
+if (instance_exists(obj_player)) {
+
+    y = obj_player.y;
+    target_y = obj_player.y;
+}
 </string>
           </argument>
         </arguments>
@@ -72,7 +73,7 @@ barrier = 0;
         </arguments>
       </action>
     </event>
-    <event eventtype="3" enumb="0">
+    <event eventtype="3" enumb="2">
       <action>
         <libid>1</libid>
         <id>603</id>
@@ -121,24 +122,15 @@ if (instance_exists(obj_player)) {
     }
     
     //Set the x position based on player's x position.
-    target_x = (x+obj_player.x)/2;
+    x = obj_player.x;
 
     //Set the y position based on player's y position.
-    if ((obj_player.y &lt; view_yview[0]+view_hview[0]/2) &amp;&amp; (obj_player.gravity == 0))
-    || (obj_player.y &gt; view_yview[0]+view_hview[0]/2)
-        target_y = (y+obj_player.y)/2;
-}
-
-//Otherwise, cancel the target
-else {
-
-    target_x = x;
-    target_y = y;
+    y = obj_player.y;
 }
 
 //Set camera position
-x = lerp(x, target_x, 0.1);
-y = lerp(y, target_y, 0.2);
+x = round(x);
+y = round(y);
 </string>
           </argument>
         </arguments>

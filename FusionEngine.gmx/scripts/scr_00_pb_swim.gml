@@ -1,14 +1,24 @@
-//Call uninitialized variables
+///Swimming Behaviour Script
+
+//Maximum Horizontal Speed
 var hspeedmax = 1;
+
+//Jump Strength
 var jumpstr = 3.4675;
+
+//Acceleration
 var acc = 0.025;
 var accskid = 0.05;
+
+//Deceleration
 var dec = 0.007;
+
+//Gravity
 var grav = 0.03;
 
 //Figure out the player's state.
-if (collision_rectangle(bbox_left,bbox_bottom+1,bbox_right,bbox_bottom+1,obj_semisolid,0,0))
-|| (collision_rectangle(bbox_left,bbox_bottom+1,bbox_right,bbox_bottom+2,obj_slopeparent,1,0))
+if (collision_rectangle(bbox_left,bbox_bottom+1,bbox_right,bbox_bottom+1,obj_semisolid,1,0))
+|| (collision_rectangle(bbox_left,bbox_bottom+1,bbox_right,bbox_bottom+1,obj_slopeparent,1,0))
 && (gravity == 0) {
 
     //Figure out if the player is standing or walking
@@ -71,7 +81,7 @@ if (!disablecontrol) && (!inwall) { //If the player controls are not disabled.
         state = 2;
             
         //Move the player a few pixels upwards when on contact with a moving platform or a slope.
-        var platform = collision_rectangle(bbox_left,bbox_bottom,bbox_right,bbox_bottom+1,obj_semisolid,0,0);
+        var platform = collision_rectangle(bbox_left,bbox_bottom,bbox_right,bbox_bottom+1,obj_semisolid,1,0);
         if (platform)
         && (platform.vspeed < 0)
             y -= 4;

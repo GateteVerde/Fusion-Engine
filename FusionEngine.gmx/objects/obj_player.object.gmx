@@ -37,12 +37,12 @@ state = 0;
 //Delays jumping state when falling off
 delay = 0;
 
-//Handle the player's facing direction.
+//Handles the player facing direction.
 //1: Right
 //-1: Left
 xscale = 1;
 
-//Handle Mario's direction when stuck on a solid.
+//Handles the player direction when stuck on a solid.
 //1:    Right
 //-1:   Left
 direct = 1;
@@ -50,7 +50,7 @@ direct = 1;
 //Allows the player to jump or not jump.
 jumping = 0;
 
-//Allows the player to swim when enters in contact with water
+//Allows the player to swim when he/she enters in contact with water
 swimming = false;
 
 //Whether the player is crouched down.
@@ -153,15 +153,48 @@ invulnerable = false;
             <kind>1</kind>
             <string>///Set the appropiate sprite for the player object
 
-//Set the animation
-sprite_index = spr_player;
-image_single = crouch;
+//Set the sprite
+sprite_index = spr_player
 
-//If the player is crouched down, set the correct mask
-if (!crouch)
-    mask_index = spr_playermask;
-else
-    mask_index = spr_playermask_crouch;
+//Do not animate
+image_speed = 0;
+
+//If the player is climbing
+if (state == 3) {
+
+    //Set the climbing frame...
+    image_index = 1;
+    
+    //...and set the default mask if we didn't yet.
+    if (mask_index != spr_playermask)
+        mask_index = spr_playermask;
+}
+
+//Otherwise
+else {
+
+    //If the player is not crouched down
+    if (crouch == false) {
+    
+        //Set the default frame...
+        image_index = 0;
+        
+        //...and set the default mask if we didn't yet
+        if (mask_index != spr_playermask)
+            mask_index = spr_playermask;
+    }
+    
+    //Otherwise
+    else {
+    
+        //Set the default frame...
+        image_index = 2;
+        
+        //...and set the default mask if we didn't yet
+        if (mask_index != spr_playermask_crouch)
+            mask_index = spr_playermask_crouch;        
+    }
+}
 </string>
           </argument>
         </arguments>
@@ -186,17 +219,17 @@ else
             <kind>1</kind>
             <string>///Physics
 
-//Check if the player is on a slope
-if (collision_rectangle(x-1,bbox_bottom,x+1,bbox_bottom+1,obj_slopeparent,1,0))
+//Check if the player is making contact with a slope
+if (collision_rectangle(bbox_left,bbox_bottom+1,bbox_right,bbox_bottom+4,obj_slopeparent,1,0))
     slope = true;
 else
     slope = false;
 
 //Floor collision
-if (vspeed &gt;= 0) { //If the player is moving down.
+if (vspeed &gt; 0) { //If the player is moving down.
 
     //Check for a semisolid object
-    var semisolid = collision_rectangle(bbox_left,bbox_bottom,bbox_right,bbox_bottom+vspeed,obj_semisolid,0,0);
+    var semisolid = collision_rectangle(bbox_left,bbox_bottom,bbox_right,bbox_bottom+vspeed,obj_semisolid,1,0);
     
     //If the semisolid exists and the player is above it.
     if (semisolid)
@@ -216,17 +249,14 @@ if (vspeed &gt;= 0) { //If the player is moving down.
 }
     
 //Embed the player into the slope if he is walking or sliding down a slope to ensure correct slope physics.
-if (collision_rectangle(x-1,bbox_bottom+1,x+1,bbox_bottom+4,obj_slopeparent,1,0)) 
-&amp;&amp; (!collision_rectangle(x-1,bbox_bottom-4,x+1,bbox_bottom-4,obj_slopeparent,1,0))
-&amp;&amp; (state == 1) {
-
-    if (!collision_rectangle(x-1,bbox_bottom-1,x+1,bbox_bottom+1,obj_semisolid,0,0))
-        y += 4;
-}
+if (collision_rectangle(bbox_left,bbox_bottom,bbox_right,bbox_bottom+4,obj_slopeparent,1,0)) 
+&amp;&amp; (!collision_rectangle(bbox_left,bbox_bottom-4,bbox_right,bbox_bottom-4,obj_slopeparent,1,0))
+&amp;&amp; (state == 1)
+    y += 4;
 
 //Handle slope collision
-if (collision_rectangle(x-1,bbox_bottom-4,x+1,bbox_bottom-1,obj_slopeparent,1,0)) 
-&amp;&amp; (!collision_rectangle(x-1,bbox_bottom-8,x+1,bbox_bottom-8,obj_slopeparent,1,0)) {
+if (collision_rectangle(bbox_left,bbox_bottom-4,bbox_right,bbox_bottom,obj_slopeparent,1,0)) 
+&amp;&amp; (!collision_rectangle(bbox_left,bbox_bottom-8,bbox_right,bbox_bottom-8,obj_slopeparent,1,0)) {
     
     //If the player is moving down
     if (vspeed &gt; 0) {
@@ -241,12 +271,12 @@ if (collision_rectangle(x-1,bbox_bottom-4,x+1,bbox_bottom-1,obj_slopeparent,1,0)
     
     //Prevent the player from getting embed inside a slope.
     if (vspeed &gt; -0.85)
-        while (collision_rectangle(x-1,bbox_bottom-4,x+1,bbox_bottom-1,obj_slopeparent,1,0))
+        while (collision_rectangle(bbox_left,bbox_bottom-4,bbox_right,bbox_bottom,obj_slopeparent,1,0))
             y--;
 }
 
 //Left conveyor belt collision
-lconv = collision_rectangle(bbox_left,bbox_bottom,bbox_right,bbox_bottom+1,obj_conveyor_l,0,0);
+lconv = collision_rectangle(bbox_left,bbox_bottom,bbox_right,bbox_bottom+1,obj_conveyor_l,1,0);
 if ((lconv) &amp;&amp; (lconv.image_speed != 0)) {
 
     if (!collision_rectangle(bbox_left-1,bbox_top+4,bbox_left,bbox_bottom-1,obj_solid,1,0))
@@ -254,7 +284,7 @@ if ((lconv) &amp;&amp; (lconv.image_speed != 0)) {
 }
 
 //Right conveyor belt collision
-rconv = collision_rectangle(bbox_left,bbox_bottom,bbox_right,bbox_bottom+1,obj_conveyor_r,0,0);
+rconv = collision_rectangle(bbox_left,bbox_bottom,bbox_right,bbox_bottom+1,obj_conveyor_r,1,0);
 if ((rconv) &amp;&amp; (rconv.image_speed != 0)) {
 
     if (!collision_rectangle(bbox_right,bbox_top+4,bbox_right+1,bbox_bottom-1,obj_solid,1,0))
@@ -288,27 +318,27 @@ else if (swimming) {
 
 //If the player is bumping into a wall to the right
 if (hspeed &gt; 0) 
-&amp;&amp; (collision_rectangle(bbox_right,bbox_top+4,bbox_right+1,bbox_bottom-4-(slope*4),obj_solid,1,0)) {
+&amp;&amp; (collision_rectangle(bbox_right,bbox_top+4,bbox_right+1,bbox_bottom-4-(slope*8),obj_solid,1,0)) {
 
     //Stop horizontal movement
     hspeed = 0;    
     
     //Prevent the player from getting embed into the wall
     while (collision_rectangle(x,bbox_top+4,bbox_right,bbox_bottom-4,obj_solid,1,0))
-    &amp;&amp; (!collision_point(x,bbox_top+4,obj_solid,0,0))
+    &amp;&amp; (!collision_point(x,bbox_top+4,obj_solid,1,0))
         x--;
 }
 
 //Otherwise, if the player is bumping into a wall to the left
 else if (hspeed &lt; 0)
-&amp;&amp; (collision_rectangle(bbox_left-1,bbox_top+4,bbox_left,bbox_bottom-4-(slope*4),obj_solid,1,0)) {
+&amp;&amp; (collision_rectangle(bbox_left-1,bbox_top+4,bbox_left,bbox_bottom-4-(slope*8),obj_solid,1,0)) {
 
     //Stop horizontal movement
     hspeed = 0;    
     
     //Prevent the player from getting embed into the wall
     while (collision_rectangle(bbox_left,bbox_top+4,x,bbox_bottom-4,obj_solid,1,0))
-    &amp;&amp; (!collision_point(x,bbox_top+4,obj_solid,0,0))
+    &amp;&amp; (!collision_point(x,bbox_top+4,obj_solid,1,0))
         x++;
 }
 
@@ -355,7 +385,7 @@ if (state != 3) {
             crouch = false;
             
             //Check if there's a ceiling above the player and make him move until it's not embed in a solid
-            if (collision_rectangle(bbox_left,bbox_top-16,bbox_right,bbox_top-16,obj_solid,0,0))
+            if (collision_rectangle(bbox_left,bbox_top-16,bbox_right,bbox_top-16,obj_solid,1,0))
                 inwall = true;
         }            
     }
@@ -367,7 +397,7 @@ else {
 }
 
 //Check for a nearby swimming surface
-var water = collision_rectangle(bbox_left,bbox_top,bbox_right,bbox_top,obj_swim,0,0);
+var water = collision_rectangle(bbox_left,bbox_top,bbox_right,bbox_top,obj_swim,1,0);
 
 //If the player is not swimming and makes contact with a water surface
 if ((!swimming) &amp;&amp; (water)) {
@@ -391,7 +421,7 @@ if ((!swimming) &amp;&amp; (water)) {
 else if ((swimming) &amp;&amp; (!water)) {
 
     //If there's not water above and there's not a solid on the way out
-    if (!collision_rectangle(bbox_left,bbox_top-1,bbox_right,bbox_top-1,obj_solid,0,0)) {
+    if (!collision_rectangle(bbox_left,bbox_top-1,bbox_right,bbox_top-1,obj_solid,1,0)) {
     
         //If the player is moving up
         if ((state == 2) &amp;&amp; (vspeed &lt; 0)) {
@@ -432,8 +462,8 @@ if (state &lt; 2)
     if (stuck) {
     
         //If the player is colliding with a left or right modifier
-        if (!collision_rectangle(bbox_left,bbox_top,bbox_right,bbox_bottom,obj_left,0,0))
-        &amp;&amp; (!collision_rectangle(bbox_left,bbox_top,bbox_right,bbox_bottom,obj_right,0,0)) {
+        if (!collision_rectangle(bbox_left,bbox_top,bbox_right,bbox_bottom,obj_left,1,0))
+        &amp;&amp; (!collision_rectangle(bbox_left,bbox_top,bbox_right,bbox_bottom,obj_right,1,0)) {
         
             //If the player is facing right
             if (xscale == 1) {
@@ -485,7 +515,7 @@ if (state &lt; 2)
         }
         
         //Otherwise, if the player is overlapping an left modifier
-        else if (collision_rectangle(bbox_left,bbox_top,bbox_right,bbox_bottom,obj_left,0,0)) {
+        else if (collision_rectangle(bbox_left,bbox_top,bbox_right,bbox_bottom,obj_left,1,0)) {
         
             //Move the player to safety
             inwall = true;
@@ -495,7 +525,7 @@ if (state &lt; 2)
         }
         
         //Otherwise, if the player is overlapping an right modifier
-        else if (collision_rectangle(bbox_left,bbox_top,bbox_right,bbox_bottom,obj_right,0,0)) {
+        else if (collision_rectangle(bbox_left,bbox_top,bbox_right,bbox_bottom,obj_right,1,0)) {
         
             //Move the player to safety
             inwall = true;

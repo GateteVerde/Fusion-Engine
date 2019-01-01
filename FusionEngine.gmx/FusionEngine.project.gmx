@@ -32,11 +32,11 @@
           <sprite>sprites\spr_slope_sr</sprite>
           <sprite>sprites\spr_slope_sl</sprite>
         </sprites>
-        <sprites name="Conveyors">
-          <sprite>sprites\spr_square_lconv</sprite>
-          <sprite>sprites\spr_square_rconv</sprite>
-        </sprites>
         <sprites name="Hazards">
+          <sprites name="Conveyors">
+            <sprite>sprites\spr_square_lconv</sprite>
+            <sprite>sprites\spr_square_rconv</sprite>
+          </sprites>
           <sprites name="Hurt">
             <sprite>sprites\spr_hurtmask</sprite>
           </sprites>
@@ -87,20 +87,22 @@
             <object>objects\obj_slope_sr</object>
             <object>objects\obj_slope_sl</object>
           </objects>
-          <objects name="Conveyors">
-            <object>objects\obj_conveyor_l</object>
-            <object>objects\obj_conveyor_r</object>
-          </objects>
           <objects name="Hazards">
+            <objects name="Conveyors">
+              <object>objects\obj_conveyor_l</object>
+              <object>objects\obj_conveyor_r</object>
+            </objects>
             <object>objects\obj_slippery</object>
           </objects>
-          <object>objects\obj_movingplatform</object>
-          <object>objects\obj_movingplatform_semisolid</object>
+          <object>objects\obj_platform</object>
+          <object>objects\obj_platform_top</object>
         </objects>
       </objects>
       <objects name="Parents">
         <objects name="Collision Parents">
           <object>objects\obj_slopeparent</object>
+          <object>objects\obj_platformparent</object>
+          <object>objects\obj_platformparent_top</object>
         </objects>
       </objects>
     </objects>

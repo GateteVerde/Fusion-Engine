@@ -1,4 +1,6 @@
-//Call uninitialized variables
+///Climb Behaviour Script
+
+//Jump Strength
 var jumpstr = 3.4675;
 
 //Cap horizontal speed
@@ -46,7 +48,7 @@ if (!disablecontrol) { //If the player controls are not disabled.
     if ((keyboard_check(vk_up)) && (!keyboard_check(vk_down))) {
     
         //If there's not a climbable surface above the player.
-        if (!collision_rectangle(bbox_left,bbox_top,bbox_right,bbox_top,obj_climb,0,0)) {
+        if (!collision_rectangle(bbox_left,bbox_top,bbox_right,bbox_top,obj_climb,1,0)) {
         
             //Stop vertical speed
             vspeed = 0;
@@ -65,7 +67,7 @@ if (!disablecontrol) { //If the player controls are not disabled.
         vspeed += 0.15;
         
         //Check for a nearby floor and stop climbing if there's one.
-        var semisolid = collision_rectangle(bbox_left,bbox_bottom,bbox_right,bbox_bottom,obj_semisolid,0,0);
+        var semisolid = collision_rectangle(bbox_left,bbox_bottom,bbox_right,bbox_bottom,obj_semisolid,1,0);
         if (semisolid)
             state = 2;
     }
@@ -89,5 +91,5 @@ if (!disablecontrol) { //If the player controls are not disabled.
 }
 
 //Check if there's a not climbable surface overlapping the player.
-if (!collision_rectangle(bbox_left,bbox_top,bbox_right,bbox_bottom,obj_climb,0,0))        
+if (!collision_rectangle(bbox_left,bbox_top,bbox_right,bbox_bottom,obj_climb,1,0))        
     state = 2;

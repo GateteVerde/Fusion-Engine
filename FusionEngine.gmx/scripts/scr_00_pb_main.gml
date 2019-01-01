@@ -1,16 +1,26 @@
-//Call uninitialized variables.
+///Main Behaviour Script
+
+//Maximum horizontal speed
 var hspeedmax = 1.35;
+
+//Jump Strength
 var jumpstr = 3.4675;
+
+//Acceleration
 var acc = 0.05;
 var accskid = 0.15;
+
+//Deceleration
 var dec = 0.0375;
 var decskid = 0.072;
+
+//Gravity
 var grav = 0.3625;
 var grav_alt = 0.0625;
 
 //Figure out the player's state.
-if (collision_rectangle(bbox_left,bbox_bottom+1,bbox_right,bbox_bottom+1,obj_semisolid,0,0))
-|| (collision_rectangle(bbox_left,bbox_bottom+1,bbox_right,bbox_bottom+2,obj_slopeparent,1,0))
+if (collision_rectangle(bbox_left,bbox_bottom+1,bbox_right,bbox_bottom+1,obj_semisolid,1,0))
+|| (collision_rectangle(bbox_left,bbox_bottom+1,bbox_right,bbox_bottom+1,obj_slopeparent,1,0))
 && (gravity == 0) {
 
     //Figure out if the player is standing or walking
@@ -34,38 +44,16 @@ else {
 }
 
 //Prevent the player from falling too fast.
-if (vspeed > 3.5)
-    vspeed = 3.5;
+if (vspeed > 4)
+    vspeed = 4;
     
 //Set up the player's maximum horizontal speed.
-//Collision with 45ª slopes
-if ((collision_rectangle(bbox_left,bbox_bottom,bbox_right,bbox_bottom+4,obj_slope_sr,1,0)) && (hspeed > 0))
-|| ((collision_rectangle(bbox_left,bbox_bottom,bbox_right,bbox_bottom+4,obj_slope_sl,1,0)) && (hspeed < 0)) { 
+if (keyboard_check(vk_control)) //If the control key is being held.
+    hspeedmax = 2.7;
 
-    //Perform only if walking
-    if (state == 1)
-        hspeedmax = 0.675;
-}
-    
-//Collision with 22.5ª slopes.
-else if ((collision_rectangle(bbox_left,bbox_bottom,bbox_right,bbox_bottom+4,obj_slope_r,1,0)) && (hspeed > 0))
-|| ((collision_rectangle(bbox_left,bbox_bottom,bbox_right,bbox_bottom+4,obj_slope_l,1,0)) && (hspeed < 0)) {
-
-    //Perform only if walking
-    if (state == 1)
-        hspeedmax = 1.35;
-}
-
-//Otherwise, set default limits.
-else {
-    
-    if (keyboard_check(vk_control)) //If the control key is being held.
-        hspeedmax = 2.7;
-    
-    //Otherwise, do not reduce speed until the player makes contact with the ground.  
-    else
-        hspeedmax = 1.35;
-}
+//Otherwise, do not reduce speed until the player makes contact with the ground.  
+else
+    hspeedmax = 1.35;
 
 //Handle basic movements
 if ((!disablecontrol) && (!inwall)) { //If the player's controls are not disabled.
@@ -86,8 +74,9 @@ if ((!disablecontrol) && (!inwall)) { //If the player's controls are not disable
         state = 2;
         
         //Move the player a few pixels upwards when on contact with a moving platform or a slope.
-        var platform = collision_rectangle(bbox_left,bbox_bottom,bbox_right,bbox_bottom+1,obj_semisolid,0,0);
-        if ((platform) && (platform.vspeed < 0))
+        var platform = collision_rectangle(bbox_left,bbox_bottom,bbox_right,bbox_bottom+1,obj_semisolid,1,0);
+        if (platform) 
+        && (platform.vspeed < 0)
             y -= 4;
     }
     
@@ -127,7 +116,7 @@ if ((!disablecontrol) && (!inwall)) { //If the player's controls are not disable
             if (hspeed < hspeedmax) {
                             
                 //Make the player move horizontally.
-                if (!collision_rectangle(bbox_left,bbox_bottom,bbox_right,bbox_bottom,obj_slippery,0,0)) { //If the player is overlapping a slippery surface.
+                if (!collision_rectangle(bbox_left,bbox_bottom,bbox_right,bbox_bottom,obj_slippery,1,0)) { //If the player is overlapping a slippery surface.
                     
                     //If the player's horizontal speed is equal/greater than 0.
                     if (hspeed >= 0) {
@@ -172,7 +161,7 @@ if ((!disablecontrol) && (!inwall)) { //If the player's controls are not disable
             if (hspeed > -hspeedmax) {
                     
                 //Make the player move horizontally.
-                if (!collision_rectangle(bbox_left,bbox_bottom,bbox_right,bbox_bottom,obj_slippery,0,0)) { //If the player is overlapping a slippery surface.
+                if (!collision_rectangle(bbox_left,bbox_bottom,bbox_right,bbox_bottom,obj_slippery,1,0)) { //If the player is overlapping a slippery surface.
                     
                     //If the player's horizontal speed is equal/lower than 0.
                     if (hspeed <= 0) {
@@ -208,7 +197,7 @@ if ((!disablecontrol) && (!inwall)) { //If the player's controls are not disable
     else if (vspeed == 0) { 
     
         //If the player is not overlapping a slippery surface.
-        if (!collision_rectangle(bbox_left,bbox_bottom,bbox_right,bbox_bottom,obj_slippery,0,0)) {
+        if (!collision_rectangle(bbox_left,bbox_bottom,bbox_right,bbox_bottom,obj_slippery,1,0)) {
         
             //If the player is not crouched down.
             if (!crouch) {
@@ -257,7 +246,7 @@ if ((!disablecontrol) && (!inwall)) { //If the player's controls are not disable
 else if (vspeed == 0) { 
         
     //If the player is not overlapping a slippery surface.
-    if (!collision_rectangle(bbox_left,bbox_bottom,bbox_right,bbox_bottom,obj_slippery,0,0)) {
+    if (!collision_rectangle(bbox_left,bbox_bottom,bbox_right,bbox_bottom,obj_slippery,1,0)) {
     
         //If the player is not crouched down.
         if (!crouch) {
@@ -311,7 +300,7 @@ if ((state == 2) || (delay > 0)) {
 
 //Makes the player start climbing.
 //Climb if overlapping a climbing surface.
-if (collision_rectangle(bbox_left,bbox_top,bbox_right,bbox_top,obj_climb,0,0))
+if (collision_rectangle(bbox_left,bbox_top,bbox_right,bbox_top,obj_climb,1,0))
 && (!disablecontrol)
 && (keyboard_check(vk_up)) {
 
