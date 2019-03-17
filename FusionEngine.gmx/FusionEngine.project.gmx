@@ -11,7 +11,7 @@
     <sprite>sprites\spr_left</sprite>
     <sprite>sprites\spr_right</sprite>
     <sprite>sprites\spr_eventmarker</sprite>
-    <sprites name="00. Platform">
+    <sprites name="Main">
       <sprite>sprites\spr_playermask</sprite>
       <sprite>sprites\spr_playermask_crouch</sprite>
       <sprite>sprites\spr_player</sprite>
@@ -50,24 +50,16 @@
   <backgrounds name="background"/>
   <paths name="paths"/>
   <scripts name="scripts">
-    <scripts name="00. Platform">
-      <scripts name="Player">
-        <scripts name="Behaviour">
-          <script>scripts\scr_00_pb_main.gml</script>
-          <script>scripts\scr_00_pb_climb.gml</script>
-          <script>scripts\scr_00_pb_swim.gml</script>
-        </scripts>
-      </scripts>
-    </scripts>
+    <script>scripts\approach.gml</script>
   </scripts>
+  <shaders name="shaders"/>
   <objects name="objects">
     <object>objects\obj_persistent</object>
     <object>objects\obj_up</object>
     <object>objects\obj_down</object>
     <object>objects\obj_left</object>
     <object>objects\obj_right</object>
-    <objects name="00. Platform">
-      <object>objects\obj_camera</object>
+    <objects name="Main">
       <objects name="Main">
         <object>objects\obj_player</object>
         <objects name="Collision">
@@ -98,12 +90,15 @@
           <object>objects\obj_platform_top</object>
         </objects>
       </objects>
-      <objects name="Parents">
-        <objects name="Collision Parents">
-          <object>objects\obj_slopeparent</object>
-          <object>objects\obj_platformparent</object>
-          <object>objects\obj_platformparent_top</object>
+      <objects name="Special">
+        <objects name="Parents">
+          <objects name="Collision Parents">
+            <object>objects\obj_slopeparent</object>
+            <object>objects\obj_platformparent</object>
+            <object>objects\obj_platformparent_top</object>
+          </objects>
         </objects>
+        <object>objects\obj_camera</object>
       </objects>
     </objects>
   </objects>

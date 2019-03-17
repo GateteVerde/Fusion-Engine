@@ -21,5 +21,9 @@
   <height>8</height>
   <frames>
     <frame index="0">images\spr_playermask_crouch_0.png</frame>
+    <frame index="1">images\spr_playermask_crouch_1.png</frame>
+    <frame index="2">images\spr_playermask_crouch_2.png</frame>
+    <frame index="3">images\spr_playermask_crouch_3.png</frame>
+    <frame index="4">images\spr_playermask_crouch_4.png</frame>
   </frames>
 </sprite>
