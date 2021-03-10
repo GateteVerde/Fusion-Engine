@@ -52,7 +52,6 @@
   <scripts name="scripts">
     <script>scripts\approach.gml</script>
   </scripts>
-  <shaders name="shaders"/>
   <objects name="objects">
     <object>objects\obj_persistent</object>
     <object>objects\obj_up</object>
